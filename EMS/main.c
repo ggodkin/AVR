@@ -12,9 +12,9 @@
 //    PORTA^= (1<<PA2);
 //}
 
-//ISR(TIM0_COMPA_vect) {
-//    PORTA^= ((1<<PA7) | (1<<PA3));
-//}
+ISR(TIM0_COMPA_vect) {
+    PORTA^= ((1<<PA7) | (1<<PA3));
+}
 
 //not used
 //ISR(TIM0_COMPB_vect) {
@@ -24,10 +24,9 @@
 void init_ports(){
     // Configure PORTA as output
     DDRA = 0xFF;
-    PORTA = 0x00;
-    //PORTA = ((1<<PA7)) ;
+    PORTA = ((1<<PA7)) ;
     DDRB = 0xF;
-    PORTB = (1<<PB2);
+    PORTB = 0x0; //(1<<PB2);
 }
 void init_cpu(){
     CLKPR = (1<<CLKPCE);
@@ -37,22 +36,18 @@ void init_cpu(){
     //CLKPR = ((1<<CLKPS0)); //CPS scaler 2
 }
 void init_timers(){
-    int MyTimer = 58;
-    //Stop timer
-    TCCR0B = 0x00;
-    //output register
-    OCR0A |= MyTimer;
-    OCR0B |= MyTimer;
-    init_ports();
-     //set prescaler
+    //set CTC mode
+    TCCR0A |= ((1<<WGM01) | (1<<COM0A1) ); //((1<<WGM01) | (1<<COM0A0));   //1<<COM0A0 -- Toggle OC0A, do not need interrupt; 1<<WGM01 -- CTC mode
+    //set prescaler
     TCCR0B |= ((1<<CS00) | (1<<CS02));  //1024
     //TCCR0B |= ((1<<CS02));  //256
     //TCCR0B |= ((1<<CS00) | (1<<CS01));  //64
     //TCCR0B |= ((1<<CS01));  //8
     //TCCR0B |= ((1<<CS00));  //1
-    //set CTC mode
-    TCCR0A |= ((1<<WGM01) | (1<<COM0A0) | (1<<COM0B0 )); //((1<<WGM01) | (1<<COM0A0));   //1<<COM0A0 -- Toggle OC0A, do not need interrupt; 1<<WGM01 -- CTC mode
-   //TIMSK0 |= (1<<OCIE0A);
+    //output register
+    OCR0A |= 58;
+    //OCR0B |= 255; not used
+    TIMSK0 |= (1<<OCIE0A);
 }
 
 // ********************************************************************************
@@ -60,9 +55,10 @@ void init_timers(){
 // ********************************************************************************
 int main( void ) {
     init_cpu();
+    init_ports();
     init_timers();
     // enable timer overflow interrupt for both Timer0 and Timer1
-    //sei();
+    sei();
     while(1) {
     }
 }
