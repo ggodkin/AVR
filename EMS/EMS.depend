@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1539539671 source:/home/greg/AVR/ATtiny84/EMS/fuse.c
+	<avr/io.h>
+
+1539550763 source:/home/greg/AVR/ATtiny84/EMS/main.c
+	<avr/io.h>
+	<avr/interrupt.h>
+
