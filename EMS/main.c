@@ -43,10 +43,10 @@ void init_timers(){
     //set CTC mode
     TCCR0A |= ((1<<WGM01) | (1<<COM0A1) ); //((1<<WGM01) | (1<<COM0A0));   //1<<COM0A0 -- Toggle OC0A, do not need interrupt; 1<<WGM01 -- CTC mode
     //set prescaler
-    //TCCR0B |= ((1<<CS00) | (1<<CS02));  //1024
+    TCCR0B |= ((1<<CS00) | (1<<CS02));  //1024
     //TCCR0B |= ((1<<CS02));  //256
     //TCCR0B |= ((1<<CS00) | (1<<CS01));  //64
-    TCCR0B |= ((1<<CS01));  //8
+    //TCCR0B |= ((1<<CS01));  //8
     //TCCR0B |= ((1<<CS00));  //1
     //output register
     OCR0A |= 58;
@@ -71,7 +71,7 @@ int main( void ) {
     init_cpu();
     init_ports();
     init_timers();
-    init_timer16();
+    //init_timer16();
     // enable timer overflow interrupt for both Timer0 and Timer1
     sei();
     while(1) {
