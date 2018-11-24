@@ -46,8 +46,8 @@ void init_timers(){
     //TCCR0B |= ((1<<CS00) | (1<<CS02));  //1024
     //TCCR0B |= ((1<<CS02));  //256
     //TCCR0B |= ((1<<CS00) | (1<<CS01));  //64
-    //TCCR0B |= ((1<<CS01));  //8
-    TCCR0B |= ((1<<CS00));  //1
+    TCCR0B |= ((1<<CS01));  //8
+    //TCCR0B |= ((1<<CS00));  //1
     //output register
     OCR0A |= 58;
     //OCR0B |= 255; not used
