@@ -58,7 +58,18 @@ void init_timer16() {
     OCR1B |= 58;
     TIMSK1 |= (1 << OCIE1A);
 }
-
+/*
+Pin interrupt will set the direction (up or down)
+The timer event is every 60 ms. The first will acknowledge the button press by 
+setting confBtnFlg and second event will used direction and confBtnFlg to 
+increment/decrement appropriate port and reset flags
+*/
+volatile char btnUpFlg;
+volatile char btnDwnFlg;
+volatile char confBtnFlg;
+btnUpFlg = 0;
+btnDwnFlg = 0;
+confBtnFlg = 0;
 // ********************************************************************************
 // Main
 // ********************************************************************************
