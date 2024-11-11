@@ -1,4 +1,4 @@
-/*
+/* 
 Capacitance-based Liquid Level Indicator
 sourced from https://www.circuitbasics.com/how-to-make-an-arduino-capacitance-meter/#
 */
@@ -60,14 +60,13 @@ void loop() {
       do {
         digVal = digitalRead(OUT_PIN);
         unsigned long u2 = micros();
-        t = u2 > u1 ? u2 - u1 : u1 - u2;
+        t = (u2 > u1) ? (u2 - u1) : (u1 - u2);
       } while ((digVal < 1) && (t < 400000L));
 
       pinMode(OUT_PIN, INPUT);  
       val = analogRead(OUT_PIN);
       digitalWrite(IN_PIN, HIGH);
-      int dischargeTime = (int)(t / 1000L) * 5;
-      totalTime += t;
+      totalTime += t * 2;  // Adjust timing for 8MHz clock
     }
 
     sampleCount++;
