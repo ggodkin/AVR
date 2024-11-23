@@ -1,17 +1,20 @@
 #include <FastLED.h>
 
-#define LED_PIN         3
-#define NUM_LEDS        240
-#define MAX_BRIGHTNESS  128
-#define PIR_PIN_BEGIN   7
-#define PIR_PIN_END     5
-#define FADE_DURATION   30000 // 30 seconds in milliseconds
+#define LED_PIN1       3
+#define LED_PIN2       4 // Pin for the second LED string
+#define NUM_LEDS       240
+#define MAX_BRIGHTNESS 128
+#define PIR_PIN_BEGIN  7
+#define PIR_PIN_END    5
+#define FADE_DURATION  30000 // 30 seconds in milliseconds
 #define DELAY_BETWEEN_LEDS 100 // Time delay in milliseconds between lighting up each LED
 
-CRGB leds[NUM_LEDS];
+CRGB leds1[NUM_LEDS];
+CRGB leds2[NUM_LEDS];
 
 void setup() {
-  FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, LED_PIN1, GRB>(leds1, NUM_LEDS);
+  FastLED.addLeds<WS2812B, LED_PIN2, GRB>(leds2, NUM_LEDS);
   pinMode(PIR_PIN_BEGIN, INPUT);
   pinMode(PIR_PIN_END, INPUT);
   randomSeed(analogRead(0)); // Seed the random number generator
@@ -19,28 +22,44 @@ void setup() {
 
 void loop() {
   if (digitalRead(PIR_PIN_BEGIN) == HIGH) {
-    activateLEDs(0);
+    uint8_t hue = random(0, 255);
+    activateLEDs(0, hue);
     fadeOutLEDs();
   } else if (digitalRead(PIR_PIN_END) == HIGH) {
-    activateLEDs(NUM_LEDS - 1);
+    uint8_t hue = random(0, 255);
+    activateLEDs(NUM_LEDS - 1, hue);
     fadeOutLEDs();
   }
 }
 
-void activateLEDs(int startIndex) {
-  uint8_t initialHue = random(0, 255); // Generate an initial random hue
-
+void activateLEDs(int startIndex, uint8_t hue) {
   FastLED.setBrightness(MAX_BRIGHTNESS); // Ensure starting brightness is consistent
 
+  // Activate the first string
   if (startIndex == 0) {
     for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = CHSV((initialHue + i) % 255, 255, 255); // Change hue as LEDs turn on
+      leds1[i] = CHSV((hue + i) % 255, 255, 255); // Change hue as LEDs turn on
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
   } else {
     for (int i = NUM_LEDS - 1; i >= 0; i--) {
-      leds[i] = CHSV((initialHue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
+      leds1[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
+      FastLED.show();
+      delay(DELAY_BETWEEN_LEDS);
+    }
+  }
+
+  // Activate the second string
+  if (startIndex == 0) {
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds2[i] = CHSV((hue + i) % 255, 255, 255); // Change hue as LEDs turn on
+      FastLED.show();
+      delay(DELAY_BETWEEN_LEDS);
+    }
+  } else {
+    for (int i = NUM_LEDS - 1; i >= 0; i--) {
+      leds2[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
