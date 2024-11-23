@@ -35,31 +35,17 @@ void loop() {
 void activateLEDs(int startIndex, uint8_t hue) {
   FastLED.setBrightness(MAX_BRIGHTNESS); // Ensure starting brightness is consistent
 
-  // Activate the first string
   if (startIndex == 0) {
     for (int i = 0; i < NUM_LEDS; i++) {
       leds1[i] = CHSV((hue + i) % 255, 255, 255); // Change hue as LEDs turn on
+      leds2[i] = CHSV((hue + i) % 255, 255, 255); // Same for the second string
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
   } else {
     for (int i = NUM_LEDS - 1; i >= 0; i--) {
       leds1[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
-      FastLED.show();
-      delay(DELAY_BETWEEN_LEDS);
-    }
-  }
-
-  // Activate the second string
-  if (startIndex == 0) {
-    for (int i = 0; i < NUM_LEDS; i++) {
-      leds2[i] = CHSV((hue + i) % 255, 255, 255); // Change hue as LEDs turn on
-      FastLED.show();
-      delay(DELAY_BETWEEN_LEDS);
-    }
-  } else {
-    for (int i = NUM_LEDS - 1; i >= 0; i--) {
-      leds2[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
+      leds2[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Same for the second string
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
