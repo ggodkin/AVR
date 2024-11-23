@@ -17,7 +17,7 @@ void setup() {
   FastLED.addLeds<WS2812B, LED_PIN2, GRB>(leds2, NUM_LEDS);
   pinMode(PIR_PIN_BEGIN, INPUT);
   pinMode(PIR_PIN_END, INPUT);
-  randomSeed(analogRead(0)); // Seed the random number generator
+  randomSeed(millis() % 1000); // Seed the random number generator using mod of milliseconds
 }
 
 void loop() {
