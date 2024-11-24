@@ -2,7 +2,7 @@
 
 #define LED_PIN1       3
 #define LED_PIN2       4 // Pin for the second LED string
-#define NUM_LEDS       240
+#define NUM_LEDS       215
 #define MAX_BRIGHTNESS 128
 #define PIR_PIN_BEGIN  7
 #define PIR_PIN_END    5
