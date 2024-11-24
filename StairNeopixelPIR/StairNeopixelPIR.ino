@@ -7,7 +7,7 @@
 #define PIR_PIN_BEGIN  7
 #define PIR_PIN_END    5
 #define FADE_DURATION  30000 // 30 seconds in milliseconds
-#define DELAY_BETWEEN_LEDS 100 // Time delay in milliseconds between lighting up each LED
+#define DELAY_BETWEEN_LEDS 75 // Time delay in milliseconds between lighting up each LED
 
 CRGB leds1[NUM_LEDS];
 CRGB leds2[NUM_LEDS];
