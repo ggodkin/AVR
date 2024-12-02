@@ -6,15 +6,15 @@
 #define MAX_BRIGHTNESS 128
 #define PIR_PIN_BEGIN  7
 #define PIR_PIN_END    5
-#define FADE_DURATION  45000 // 30 seconds in milliseconds
-#define DELAY_BETWEEN_LEDS 30 // Time delay in milliseconds between lighting up each LED
+#define FADE_DURATION  25000 // 30 seconds in milliseconds
+#define DELAY_BETWEEN_LEDS 15 // Time delay in milliseconds between lighting up each LED
 
 CRGB leds1[NUM_LEDS];
-CRGB leds2[NUM_LEDS];
+// CRGB leds2[NUM_LEDS]; - both strings should be the same
 
 void setup() {
   FastLED.addLeds<WS2812B, LED_PIN1, GRB>(leds1, NUM_LEDS);
-  FastLED.addLeds<WS2812B, LED_PIN2, GRB>(leds2, NUM_LEDS);
+  FastLED.addLeds<WS2812B, LED_PIN2, GRB>(leds1, NUM_LEDS);
   pinMode(PIR_PIN_BEGIN, INPUT);
   pinMode(PIR_PIN_END, INPUT);
   randomSeed(millis() % 1000); // Seed the random number generator using mod of milliseconds
@@ -38,14 +38,14 @@ void activateLEDs(int startIndex, uint8_t hue) {
   if (startIndex == 0) {
     for (int i = 0; i < NUM_LEDS; i++) {
       leds1[i] = CHSV((hue + i) % 255, 255, 255); // Change hue as LEDs turn on
-      leds2[i] = CHSV((hue + i) % 255, 255, 255); // Same for the second string
+      // leds2[i] = CHSV((hue + i) % 255, 255, 255); // Same for the second string
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
   } else {
     for (int i = NUM_LEDS - 1; i >= 0; i--) {
       leds1[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Change hue as LEDs turn on
-      leds2[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Same for the second string
+      // leds2[i] = CHSV((hue + NUM_LEDS - 1 - i) % 255, 255, 255); // Same for the second string
       FastLED.show();
       delay(DELAY_BETWEEN_LEDS);
     }
